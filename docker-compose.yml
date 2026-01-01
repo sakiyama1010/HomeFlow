@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "13000:3000"
-    image: docker.io/study-react:latest
-    container_name: study-react-container
+    image: docker.io/home-flow:latest
+    container_name: home-flow-container
     volumes:
       - ./app:/usr/src/app
     extra_hosts:

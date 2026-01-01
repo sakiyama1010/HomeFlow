@@ -1,0 +1,58 @@
+/* 全体 */
+.list-page {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* タイトル */
+.list-page h1 {
+  text-align: center;
+  color: #4caf50;
+  margin-bottom: 2rem;
+}
+
+/* リスト */
+.cleaning-list {
+  list-style: none; /* デフォルトの丸を消す */
+  padding: 0;
+}
+
+/* 各アイテム */
+.cleaning-item {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.cleaning-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 名前 */
+.item-header {
+  font-weight: bold;
+  color: #2196f3;
+  margin-bottom: 0.5rem;
+}
+
+/* 説明 */
+.item-description {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit; /* 元の文字色を維持 */
+}
+.item-link:hover {
+  text-decoration: underline;
+}

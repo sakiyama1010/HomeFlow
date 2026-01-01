@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "home-flow",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,6 +9,7 @@
     "firebase": "^10.12.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -16,7 +17,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "eslintConfig": {
     "extends": [
@@ -35,5 +37,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^8.57.1",
+    "prettier": "^3.7.4",
+    "typescript": "4.9"
   }
 }
