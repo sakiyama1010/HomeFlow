@@ -17,25 +17,11 @@ npm install
 npm run build
 # サーバ立ち上げ
 npm start
-```
 
-## やりたいこと(雑メモ)
-
-* GCPを使った画像管理(AWSでいうS3)
-* データ管理
-* 開発環境整備
-
-## やったこと
-
-```sh
-# typescriptのインストール
-npm install --save-dev typescript @types/node @types/react @types/react-dom @types/
-# 初期化
-npx tsc --init
-# 文法チェック
-npm install --save-dev eslint
-# コード整形
-npm install --save-dev prettier
+# alias設定
+alias homeup='docker compose -f ./docker-compose.yml -p home-flow up -d'
+alias homebash='docker exec -it home-flow-container bash'
+alias homelog='docker logs home-flow-container'
 ```
 
 ## 素材

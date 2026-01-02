@@ -1,6 +1,14 @@
 import { db } from "../libs/firebase";
 import { Sweep } from "../types/item";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  Timestamp,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export const SweepRepository = {
   async getAll(): Promise<Sweep[]> {
@@ -27,5 +35,26 @@ export const SweepRepository = {
       id: snap.id,
       ...(snap.data() as Omit<Sweep, "id">),
     };
+  },
+
+  async markCleaned(id: string): Promise<void> {
+    const ref = doc(db, "sweeps", id);
+
+    await updateDoc(ref, {
+      lastCleaned: Timestamp.now(),
+      updatedAt: serverTimestamp(),
+    });
+  },
+
+  async update(
+    id: string,
+    data: Pick<Sweep, "name" | "description" | "cleaningMethod" | "cycleDays">,
+  ): Promise<void> {
+    const ref = doc(db, "sweeps", id);
+
+    await updateDoc(ref, {
+      ...data,
+      updatedAt: serverTimestamp(),
+    });
   },
 };
