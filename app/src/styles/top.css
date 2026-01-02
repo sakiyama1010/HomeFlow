@@ -1,0 +1,38 @@
+/* TopPage 全体のコンテナ */
+.top-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 画面全体 */
+  text-align: center;
+}
+
+/* タイトル */
+h1 {
+  font-size: 3rem;
+  color: #4caf50;
+  margin-bottom: 1rem;
+}
+
+/* 説明文 */
+.top-page p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+/* リンクをボタン風に */
+.top-page a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #4caf50;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.top-page a:hover {
+  background-color: #45a049;
+}

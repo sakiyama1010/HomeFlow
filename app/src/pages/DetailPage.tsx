@@ -1,17 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { sweepData } from "../data/sweepData";
+import { Sweep } from "../types/item";
+import { SweepRepository } from "../repositories/sweepRepository";
 import "../styles/detail.css";
 
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const item = sweepData.find((data) => data.id === Number(id));
 
-  // Hooks は必ずトップレベルで呼ぶ
-  // item が存在しない場合は空文字で初期化
-  const [lastCleaned, setLastCleaned] = useState(item ? item.lastCleaned : "");
+  const [item, setItem] = useState<Sweep | null>(null);
+  const [lastCleaned, setLastCleaned] = useState("");
 
-  // item が存在しない場合は早期 return
+  useEffect(() => {
+    if (!id) return;
+
+    SweepRepository.getById(id)
+      .then((data) => {
+        if (data) {
+          setItem(data);
+          setLastCleaned(data.lastCleaned);
+        } else {
+          console.info("not found");
+        }
+      })
+      .catch((e) => {
+        console.error("❌ getAll error:", e);
+      });
+  }, [id]);
+
+  // データがまだ取れていない or 存在しない
   if (!item) {
     return (
       <div className="detail-page">
@@ -29,7 +45,10 @@ const DetailPage: React.FC = () => {
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
     const todayStr = `${yyyy}-${mm}-${dd}`;
+
     setLastCleaned(todayStr);
+
+    // 🔹 将来ここで Firestore update を入れる
   };
 
   return (
@@ -44,7 +63,7 @@ const DetailPage: React.FC = () => {
       <p className="last-cleaned">{lastCleaned}</p>
 
       <button className="cleaned-button" onClick={handleMarkCleaned}>
-        ✅ 掃除済みにする
+        掃除済みにする
       </button>
 
       <Link to="/list" className="back-link">

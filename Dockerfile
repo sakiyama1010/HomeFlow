@@ -1,5 +1,5 @@
 # ベースイメージを指定
-FROM node:20-alpine
+FROM node:22-alpine
 
 # ポート3000を公開
 EXPOSE 3000
