@@ -8,13 +8,6 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* タイトル */
-.list-page h1 {
-  text-align: center;
-  color: #4caf50;
-  margin-bottom: 2rem;
-}
-
 /* リスト */
 .cleaning-list {
   list-style: none; /* デフォルトの丸を消す */

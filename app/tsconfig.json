@@ -8,8 +8,8 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
-    "target": "esnext",
-    "types": [],
+    "target": "es5",
+    "types": ["react-scripts"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
