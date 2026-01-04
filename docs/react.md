@@ -15,12 +15,20 @@ npm install --save-dev prettier
 
 ## 用語
 
+* JSX（JavaScript XML）
+  * JavaScriptにHTMLのような構文を直接記述できるようにする構文拡張
 * コンポーネント
   * 独自のロジックと外見を持つ UI（ユーザインターフェース）の部品のこと
   * React におけるコンポーネントとは、マークアップを返す JavaScript 関数
   * React のコンポーネント名は常に大文字で始める必要がある
+    * コンポーネント出ない場合は小文字のファイル名
 * フック (Hook) 
   * use で始まる関数
+
+### .ts と .tsx の違い
+
+* .ts	TypeScript（ロジックのみ）
+* .tsx	TypeScript + JSX
 
 ### import
 

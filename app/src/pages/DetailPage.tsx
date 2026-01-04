@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { Sweep } from "../types/item";
 import { SweepRepository } from "../repositories/sweepRepository";
 import { Timestamp } from "firebase/firestore";
+import { formatDate, calcNextCleanDate } from "../utils/date";
 import "../styles/detail.css";
-
-function formatDate(ts: Timestamp): string {
-  const date = ts.toDate();
-  const yyyy = date.getFullYear();
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
-  const dd = String(date.getDate()).padStart(2, "0");
-  return `${yyyy}/${mm}/${dd}`;
-}
-
-const calcNextCleanDate = (
-  lastCleaned: Timestamp,
-  cycleDays: number,
-): string => {
-  const baseDate = lastCleaned.toDate();
-  baseDate.setDate(baseDate.getDate() + cycleDays);
-
-  const yyyy = baseDate.getFullYear();
-  const mm = String(baseDate.getMonth() + 1).padStart(2, "0");
-  const dd = String(baseDate.getDate()).padStart(2, "0");
-
-  return `${yyyy}/${mm}/${dd}`;
-};
 
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
+  const handleDelete = async () => {
+    if (!id) return;
+
+    const ok = window.confirm("この掃除対象を削除しますか？");
+    if (!ok) return;
+
+    await SweepRepository.delete(id);
+    navigate("/list");
+  };
   const [item, setItem] = useState<Sweep | null>(null);
   const [lastCleaned, setLastCleaned] = useState<Timestamp | null>(null);
 
@@ -91,14 +80,16 @@ const DetailPage: React.FC = () => {
         </button>
       </p>
       <p>掃除周期：{item.cycleDays} 日</p>
-      <p>次の掃除予定日{nextCleanDate}</p>
+      <p>次の掃除予定日：{nextCleanDate}</p>
 
       <p className="updated-at">更新日：{formatDate(item.updatedAt)}</p>
       <div className="button-row">
         <Link className="save-button" to={`/detail/${item.id}/edit`}>
           編集する
         </Link>
-
+        <button className="delete-button" onClick={handleDelete}>
+          削除する
+        </button>
         <Link to="/list" className="cancel-link">
           一覧に戻る
         </Link>

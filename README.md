@@ -3,26 +3,13 @@
 * React勉強を兼ねた掃除補助アプリ
   * 補充品の在庫管理や最後に掃除した日、掃除方法を管理する
 
+![preview](./docs/preview.png)
+
 ## 使い方
 
-```sh
-docker compose -f docker-compose.yml -p home-flow up -d --build
-
-docker exec -it home-flow-container bash
-# コンテナ内
-cd /usr/src/app
-# インストール
-npm install
-# ビルド
-npm run build
-# サーバ立ち上げ
-npm start
-
-# alias設定
-alias homeup='docker compose -f ./docker-compose.yml -p home-flow up -d'
-alias homebash='docker exec -it home-flow-container bash'
-alias homelog='docker logs home-flow-container'
-```
+* firebase cloud firestoreでアプリを作る
+* .envに設定値を入れる
+* サーバを起動する
 
 ## 素材
 
