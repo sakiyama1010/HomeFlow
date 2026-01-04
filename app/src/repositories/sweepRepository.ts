@@ -5,10 +5,20 @@ import {
   doc,
   getDoc,
   getDocs,
+  setDoc,
   updateDoc,
+  deleteDoc,
   Timestamp,
   serverTimestamp,
 } from "firebase/firestore";
+
+export type CreateSweepInput = {
+  id: string;
+  name: string;
+  description: string;
+  cleaningMethod: string;
+  cycleDays: number;
+};
 
 export const SweepRepository = {
   async getAll(): Promise<Sweep[]> {
@@ -20,16 +30,13 @@ export const SweepRepository = {
   },
 
   async getById(id: string): Promise<Sweep | null> {
-    console.log("repo getById:", id);
     const ref = doc(db, "sweeps", id);
     const snap = await getDoc(ref);
-    console.log("repo snap:", id);
 
     if (!snap.exists()) {
       console.log("repo return null:", id);
       return null;
     }
-    console.log("repo return not null:", id);
 
     return {
       id: snap.id,
@@ -46,6 +53,17 @@ export const SweepRepository = {
     });
   },
 
+  async createWithId(input: CreateSweepInput): Promise<void> {
+    const { id, ...data } = input;
+
+    await setDoc(doc(db, "sweeps", id), {
+      ...data,
+      lastCleaned: Timestamp.now(),
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
+    });
+  },
+
   async update(
     id: string,
     data: Pick<Sweep, "name" | "description" | "cleaningMethod" | "cycleDays">,
@@ -56,5 +74,9 @@ export const SweepRepository = {
       ...data,
       updatedAt: serverTimestamp(),
     });
+  },
+
+  async delete(id: string): Promise<void> {
+    await deleteDoc(doc(db, "sweeps", id));
   },
 };

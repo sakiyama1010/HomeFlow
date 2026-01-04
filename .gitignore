@@ -1,0 +1,10 @@
+sonarqube/data/*
+!sonarqube/data/.gitkeep
+sonarqube/extensions/*
+!sonarqube/extensions/.gitkeep
+sonarqube/logs/*
+!sonarqube/logs/.gitkeep
+# 雑作成
+# sonarqube/.env
+# sonarqube/projects/home-flow/.env
+.scannerwork

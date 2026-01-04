@@ -58,10 +58,14 @@ const ListPage: React.FC = () => {
           ))}
         </ul>
       )}
-
-      <Link className="cancel-link" to="/">
-        TOPページに戻る
-      </Link>
+      <div className="button-row">
+        <Link to="/new" className="add-link">
+          新規登録
+        </Link>
+        <Link className="cancel-link" to="/">
+          TOPページに戻る
+        </Link>
+      </div>
     </div>
   );
 };
