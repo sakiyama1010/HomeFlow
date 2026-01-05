@@ -26,3 +26,14 @@ export const calcNextCleanDate = (
 
   return `${yyyy}/${mm}/${dd}`;
 };
+
+export const diffDaysFromToday = (date: Date): number => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const target = new Date(date);
+  target.setHours(0, 0, 0, 0);
+
+  const diffMs = target.getTime() - today.getTime();
+  return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+};

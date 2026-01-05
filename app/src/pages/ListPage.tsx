@@ -34,12 +34,14 @@ const ListPage: React.FC = () => {
       <h1>掃除対象リスト</h1>
 
       <h2>検索フォーム</h2>
-      <input
-        type="text"
-        placeholder="検索"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-      />
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="名前、説明文の部分一致検索"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+      </div>
 
       <h2>検索結果</h2>
       {loading ? (

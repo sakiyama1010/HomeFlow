@@ -8,6 +8,7 @@ services:
       - "13000:3000"
     image: docker.io/home-flow:latest
     container_name: home-flow-container
+    working_dir: /usr/src/app
     volumes:
       - ./app:/usr/src/app
       - ./mcp:/usr/src/mcp

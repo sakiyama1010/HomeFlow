@@ -9,6 +9,7 @@ import "../styles/detail.css";
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const handleDelete = async () => {
     if (!id) return;
@@ -37,17 +38,12 @@ const DetailPage: React.FC = () => {
       .catch((e) => {
         console.error("getAll error:", e);
       });
+
+    setLoading(false);
   }, [id]);
 
   if (!item) {
-    return (
-      <div className="detail-page">
-        <h1>対象が見つかりません</h1>
-        <Link to="/" className="back-link">
-          TOPに戻る
-        </Link>
-      </div>
-    );
+    return;
   }
 
   const nextCleanDate = calcNextCleanDate(item.lastCleaned, item.cycleDays);
@@ -65,35 +61,43 @@ const DetailPage: React.FC = () => {
 
   return (
     <div className="detail-page">
-      <h1>{item.name}</h1>
-      <p className="description">{item.description}</p>
+      {loading ? (
+        <p className="loading">ロード中...</p>
+      ) : !item ? (
+        <p className="no-result">対象が見つかりません</p>
+      ) : (
+        <>
+          <h1>{item.name}</h1>
+          <p className="description">{item.description}</p>
 
-      <h2>掃除方法</h2>
-      <p className="method">{item.cleaningMethod}</p>
+          <h2>掃除方法</h2>
+          <p className="method">{item.cleaningMethod}</p>
 
-      <h2>最後に掃除した日</h2>
-      <p className="last-cleaned">
-        {lastCleaned && formatDate(lastCleaned)}
-        <br />
-        <button className="cleaned-button" onClick={handleMarkCleaned}>
-          掃除日を更新する
-        </button>
-      </p>
-      <p>掃除周期：{item.cycleDays} 日</p>
-      <p>次の掃除予定日：{nextCleanDate}</p>
+          <h2>最後に掃除した日</h2>
+          <p className="last-cleaned">
+            {lastCleaned && formatDate(lastCleaned)}
+            <br />
+            <button className="cleaned-button" onClick={handleMarkCleaned}>
+              掃除日を更新する
+            </button>
+          </p>
+          <p>掃除周期：{item.cycleDays} 日</p>
+          <p>次の掃除予定日：{nextCleanDate}</p>
 
-      <p className="updated-at">更新日：{formatDate(item.updatedAt)}</p>
-      <div className="button-row">
-        <Link className="save-button" to={`/detail/${item.id}/edit`}>
-          編集する
-        </Link>
-        <button className="delete-button" onClick={handleDelete}>
-          削除する
-        </button>
-        <Link to="/list" className="cancel-link">
-          一覧に戻る
-        </Link>
-      </div>
+          <p className="updated-at">更新日：{formatDate(item.updatedAt)}</p>
+          <div className="button-row">
+            <Link className="save-button" to={`/detail/${item.id}/edit`}>
+              編集する
+            </Link>
+            <button className="delete-button" onClick={handleDelete}>
+              削除する
+            </button>
+            <Link to="/list" className="cancel-link">
+              一覧に戻る
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 };

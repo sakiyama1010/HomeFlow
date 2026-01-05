@@ -102,6 +102,7 @@ const EditPage: React.FC = () => {
           className={errors.name ? "input-error" : ""}
           value={name}
           onChange={(e) => setName(e.target.value)}
+          placeholder="キッチン など"
         />
         {errors.name && <p className="error">{errors.name}</p>}
       </div>

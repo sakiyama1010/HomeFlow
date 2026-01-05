@@ -13,24 +13,13 @@ describe("date utils", () => {
     test("掃除周期を足した次の掃除日を計算できる", () => {
       const lastCleaned = Timestamp.fromDate(new Date(2026, 0, 3));
       const result = calcNextCleanDate(lastCleaned, 10);
-
-      // 🔽 Timestamp → Date に変換して検証
-      const date = result.toDate();
-
-      expect(date.getFullYear()).toBe(2026);
-      expect(date.getMonth()).toBe(0); // 0 = January
-      expect(date.getDate()).toBe(13);
+      expect(result).toBe("2026/01/13");
     });
 
     test("周期が0日の場合は同じ日になる", () => {
       const lastCleaned = Timestamp.fromDate(new Date(2026, 0, 3));
       const result = calcNextCleanDate(lastCleaned, 0);
-
-      const date = result.toDate();
-
-      expect(date.getFullYear()).toBe(2026);
-      expect(date.getMonth()).toBe(0);
-      expect(date.getDate()).toBe(3);
+      expect(result).toBe("2026/01/03");
     });
   });
 });
