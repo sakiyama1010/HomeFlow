@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { SweepRepository } from "../repositories/sweepRepository";
 
+type Errors = {
+  id?: string;
+  name?: string;
+  description?: string;
+  cleaningMethod?: string;
+  cycleDays?: string;
+};
+
 const NewPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -10,8 +18,10 @@ const NewPage: React.FC = () => {
   const [cleaningMethod, setCleaningMethod] = useState("");
   const [cycleDays, setCycleDays] = useState(7);
   const [id, setId] = useState("");
+  const [errors, setErrors] = useState<Errors>({});
 
   const handleSave = async () => {
+    if (!validate()) return;
     await SweepRepository.createWithId({
       id,
       name,
@@ -23,6 +33,22 @@ const NewPage: React.FC = () => {
     navigate(`/detail/${id}`);
   };
 
+  const validate = () => {
+    const newErrors: Errors = {};
+
+    if (!id.trim()) {
+      newErrors.id = "IDは必須です";
+    }
+
+    if (!name.trim()) {
+      newErrors.name = "名前は必須です";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   return (
     <div className="edit-page">
       <h1>掃除対象を新規登録</h1>
@@ -30,15 +56,23 @@ const NewPage: React.FC = () => {
       <div className="form-group">
         <label>ID</label>
         <input
+          className={errors.id ? "input-error" : ""}
           value={id}
           onChange={(e) => setId(e.target.value)}
           placeholder="kitchen / bathroom など"
         />
+        {errors.id && <p className="error">{errors.id}</p>}
       </div>
 
       <div className="form-group">
         <label>名前</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} />
+        <input
+          className={errors.name ? "input-error" : ""}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="キッチン など"
+        />
+        {errors.name && <p className="error">{errors.name}</p>}
       </div>
 
       <div className="form-group">

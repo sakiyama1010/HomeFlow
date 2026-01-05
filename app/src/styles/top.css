@@ -14,18 +14,45 @@
   margin-bottom: 2rem;
 }
 
-/* リンクをボタン風に */
-.top-page a {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: #4caf50;
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 6px;
-  transition: background-color 0.2s;
+/* TODO:list.cssと重複 */
+/* リスト */
+.cleaning-list {
+  list-style: none; /* デフォルトの丸を消す */
+  padding: 0;
 }
 
-.top-page a:hover {
-  background-color: #45a049;
+/* 各アイテム */
+.cleaning-item {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.cleaning-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 名前 */
+.item-header {
+  font-weight: bold;
+  color: #2196f3;
+  margin-bottom: 0.5rem;
+}
+
+/* 説明 */
+.item-description {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit; /* 元の文字色を維持 */
+}
+.item-link:hover {
+  text-decoration: underline;
 }

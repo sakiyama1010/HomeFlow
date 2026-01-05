@@ -21,6 +21,8 @@ npm test -- --coverage
 alias homeup='docker compose -f ./docker-compose.yml -p home-flow up -d'
 alias homebash='docker exec -it home-flow-container bash'
 alias homelog='docker logs home-flow-container'
+# コンテナに入らずサーバ立ち上げ
+docker exec -it home-flow-container bash -c "cd /usr/src/app && npm start"
 
 # sonar
 # WSL
@@ -54,6 +56,11 @@ nvm install 18
 nvm alias default 18
 nvm use 18
 node -v
+
+# home-flow-container
+# カバレッジ取得
+npm test -- --coverage
+# WSL
 # テスト実施
 bash ./run-sonar.sh home-flow
 ```

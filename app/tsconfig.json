@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "es5",
-    "types": ["jest","react-scripts"],
+    "types": ["jest", "@testing-library/jest-dom", "react-scripts"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
