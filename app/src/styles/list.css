@@ -40,6 +40,12 @@
   font-size: 0.95rem;
 }
 
+/* 説明 */
+.item-stock {
+  color: #555;
+  font-size: 0.95rem;
+}
+
 .item-link {
   display: block;
   text-decoration: none;

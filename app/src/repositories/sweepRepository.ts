@@ -17,6 +17,7 @@ export type CreateSweepInput = {
   name: string;
   description: string;
   cleaningMethod: string;
+  stock: number;
   cycleDays: number;
 };
 
@@ -66,7 +67,10 @@ export const SweepRepository = {
 
   async update(
     id: string,
-    data: Pick<Sweep, "name" | "description" | "cleaningMethod" | "cycleDays">,
+    data: Pick<
+      Sweep,
+      "name" | "description" | "cleaningMethod" | "cycleDays" | "stock"
+    >,
   ): Promise<void> {
     const ref = doc(db, "sweeps", id);
 

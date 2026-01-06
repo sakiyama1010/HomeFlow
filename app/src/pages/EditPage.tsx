@@ -8,6 +8,7 @@ type Errors = {
   description?: string;
   cleaningMethod?: string;
   cycleDays?: string;
+  stock?: string;
 };
 
 const EditPage: React.FC = () => {
@@ -18,6 +19,7 @@ const EditPage: React.FC = () => {
   const [description, setDescription] = useState("");
   const [cleaningMethod, setCleaningMethod] = useState("");
   const [cycleDays, setCycleDays] = useState<number>(10);
+  const [stock, setStock] = useState<number>(0);
 
   const [errors, setErrors] = useState<Errors>({});
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,7 @@ const EditPage: React.FC = () => {
       setDescription(item.description);
       setCleaningMethod(item.cleaningMethod);
       setCycleDays(item.cycleDays);
+      setStock(item.stock);
       setLoading(false);
     };
 
@@ -62,6 +65,10 @@ const EditPage: React.FC = () => {
       newErrors.cycleDays = "1以上の日数を入力してください";
     }
 
+    if (stock && stock <= 0) {
+      newErrors.stock = "0以上の数を入力してください";
+    }
+
     return newErrors;
   };
 
@@ -80,6 +87,7 @@ const EditPage: React.FC = () => {
       description,
       cleaningMethod,
       cycleDays,
+      stock,
     });
 
     setToastMessage("更新しました");
@@ -130,8 +138,21 @@ const EditPage: React.FC = () => {
       </div>
 
       <div className="form-group">
+        <label>在庫数（個）</label>
+        <input
+          className={errors.stock ? "input-error" : ""}
+          type="number"
+          min={0}
+          value={stock}
+          onChange={(e) => setStock(Number(e.target.value))}
+        />
+        {errors.stock && <p className="error">{errors.stock}</p>}
+      </div>
+
+      <div className="form-group">
         <label>掃除周期（日）</label>
         <input
+          className={errors.cycleDays ? "input-error" : ""}
           type="number"
           min={1}
           value={cycleDays}

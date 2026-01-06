@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Sweep } from "../types/item";
 import { SweepRepository } from "../repositories/sweepRepository";
+import { formatDate } from "../utils/date";
 import "../styles/list.css";
 
 const ListPage: React.FC = () => {
@@ -55,6 +56,15 @@ const ListPage: React.FC = () => {
               <Link to={`/detail/${item.id}`} className="item-link">
                 <div className="item-header">{item.name}</div>
                 <div className="item-description">{item.description}</div>
+                {item.stock !== undefined && item.stock !== null && (
+                  <div className="item-stock">在庫数：{item.stock} 個</div>
+                )}
+                {item.lastCleaned !== undefined &&
+                  item.lastCleaned !== null && (
+                    <div className="item-lastCleaned">
+                      最終清掃日：{formatDate(item.lastCleaned)}{" "}
+                    </div>
+                  )}
               </Link>
             </li>
           ))}
