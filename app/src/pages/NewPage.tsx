@@ -8,6 +8,7 @@ type Errors = {
   description?: string;
   cleaningMethod?: string;
   cycleDays?: string;
+  stock?: string;
 };
 
 const NewPage: React.FC = () => {
@@ -16,7 +17,8 @@ const NewPage: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [cleaningMethod, setCleaningMethod] = useState("");
-  const [cycleDays, setCycleDays] = useState(7);
+  const [cycleDays, setCycleDays] = useState<number>(10);
+  const [stock, setStock] = useState<number>(0);
   const [id, setId] = useState("");
   const [errors, setErrors] = useState<Errors>({});
 
@@ -28,6 +30,7 @@ const NewPage: React.FC = () => {
       description,
       cleaningMethod,
       cycleDays,
+      stock,
     });
 
     navigate(`/detail/${id}`);
@@ -78,27 +81,47 @@ const NewPage: React.FC = () => {
       <div className="form-group">
         <label>説明</label>
         <textarea
+          className={errors.description ? "input-error" : ""}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        {errors.description && <p className="error">{errors.description}</p>}
       </div>
 
       <div className="form-group">
         <label>掃除方法</label>
         <textarea
+          className={errors.cleaningMethod ? "input-error" : ""}
           value={cleaningMethod}
           onChange={(e) => setCleaningMethod(e.target.value)}
         />
+        {errors.cleaningMethod && (
+          <p className="error">{errors.cleaningMethod}</p>
+        )}
+      </div>
+
+      <div className="form-group">
+        <label>在庫数（個）</label>
+        <input
+          className={errors.stock ? "input-error" : ""}
+          type="number"
+          min={0}
+          value={stock}
+          onChange={(e) => setStock(Number(e.target.value))}
+        />
+        {errors.stock && <p className="error">{errors.stock}</p>}
       </div>
 
       <div className="form-group">
         <label>掃除周期（日）</label>
         <input
+          className={errors.cycleDays ? "input-error" : ""}
           type="number"
-          value={cycleDays}
           min={1}
+          value={cycleDays}
           onChange={(e) => setCycleDays(Number(e.target.value))}
         />
+        {errors.cycleDays && <p className="error">{errors.cycleDays}</p>}
       </div>
 
       <div className="button-row">

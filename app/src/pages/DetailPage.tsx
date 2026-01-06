@@ -59,45 +59,46 @@ const DetailPage: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return <p className="loading">ロード中...</p>;
+  }
+
+  if (!item) {
+    return <p className="no-result">対象が見つかりません</p>;
+  }
+
   return (
     <div className="detail-page">
-      {loading ? (
-        <p className="loading">ロード中...</p>
-      ) : !item ? (
-        <p className="no-result">対象が見つかりません</p>
-      ) : (
-        <>
-          <h1>{item.name}</h1>
-          <p className="description">{item.description}</p>
+      <h1>{item.name}</h1>
+      <p className="description">{item.description}</p>
 
-          <h2>掃除方法</h2>
-          <p className="method">{item.cleaningMethod}</p>
+      <h2>掃除方法</h2>
+      <p className="method">{item.cleaningMethod}</p>
+      <p>在庫数：{item.stock} 個</p>
 
-          <h2>最後に掃除した日</h2>
-          <p className="last-cleaned">
-            {lastCleaned && formatDate(lastCleaned)}
-            <br />
-            <button className="cleaned-button" onClick={handleMarkCleaned}>
-              掃除日を更新する
-            </button>
-          </p>
-          <p>掃除周期：{item.cycleDays} 日</p>
-          <p>次の掃除予定日：{nextCleanDate}</p>
+      <h2>最後に掃除した日</h2>
+      <p className="last-cleaned">
+        {lastCleaned && formatDate(lastCleaned)}
+        <br />
+        <button className="cleaned-button" onClick={handleMarkCleaned}>
+          掃除日を更新する
+        </button>
+      </p>
+      <p>掃除周期：{item.cycleDays} 日</p>
+      <p>次の掃除予定日：{nextCleanDate}</p>
 
-          <p className="updated-at">更新日：{formatDate(item.updatedAt)}</p>
-          <div className="button-row">
-            <Link className="save-button" to={`/detail/${item.id}/edit`}>
-              編集する
-            </Link>
-            <button className="delete-button" onClick={handleDelete}>
-              削除する
-            </button>
-            <Link to="/list" className="cancel-link">
-              一覧に戻る
-            </Link>
-          </div>
-        </>
-      )}
+      <p className="updated-at">更新日：{formatDate(item.updatedAt)}</p>
+      <div className="button-row">
+        <Link className="save-button" to={`/detail/${item.id}/edit`}>
+          編集する
+        </Link>
+        <button className="delete-button" onClick={handleDelete}>
+          削除する
+        </button>
+        <Link to="/list" className="cancel-link">
+          一覧に戻る
+        </Link>
+      </div>
     </div>
   );
 };

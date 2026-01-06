@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { SweepRepository } from "../repositories/sweepRepository";
 import { diffDaysFromToday, calcNextCleanDate } from "../utils/date";
-import { Timestamp } from "firebase/firestore";
 import "../styles/top.css";
 
 type TodoSweep = {
