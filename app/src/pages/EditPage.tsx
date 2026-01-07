@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { SweepRepository } from "../repositories/sweepRepository";
+import SweepForm, { SweepFormErrors } from "../components/SweepForm";
 import "../styles/edit.css";
-
-type Errors = {
-  name?: string;
-  description?: string;
-  cleaningMethod?: string;
-  cycleDays?: string;
-  stock?: string;
-};
 
 const EditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,7 +14,7 @@ const EditPage: React.FC = () => {
   const [cycleDays, setCycleDays] = useState<number>(10);
   const [stock, setStock] = useState<number>(0);
 
-  const [errors, setErrors] = useState<Errors>({});
+  const [errors, setErrors] = useState<SweepFormErrors>({});
   const [loading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -46,8 +39,8 @@ const EditPage: React.FC = () => {
     fetchData();
   }, [id]);
 
-  const validate = (): Errors => {
-    const newErrors: Errors = {};
+  const validate = (): SweepFormErrors => {
+    const newErrors: SweepFormErrors = {};
 
     if (!name.trim()) {
       newErrors.name = "名前は必須です";
@@ -101,77 +94,33 @@ const EditPage: React.FC = () => {
   }
 
   return (
-    <div className="edit-page">
-      <h1>掃除対象を編集</h1>
+    <>
+      <SweepForm
+        title="掃除対象を編集"
+        name={name}
+        description={description}
+        cleaningMethod={cleaningMethod}
+        cycleDays={cycleDays}
+        stock={stock}
+        errors={errors}
+        onChange={{
+          setName,
+          setDescription,
+          setCleaningMethod,
+          setCycleDays,
+          setStock,
+        }}
+        onSave={handleSave}
+        saveLabel="更新"
+        cancelNode={
+          <Link className="cancel-link" to={`/detail/${id}`}>
+            キャンセル
+          </Link>
+        }
+      />
 
-      <div className="form-group">
-        <label>名前</label>
-        <input
-          className={errors.name ? "input-error" : ""}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="キッチン など"
-        />
-        {errors.name && <p className="error">{errors.name}</p>}
-      </div>
-
-      <div className="form-group">
-        <label>説明</label>
-        <textarea
-          className={errors.description ? "input-error" : ""}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        {errors.description && <p className="error">{errors.description}</p>}
-      </div>
-
-      <div className="form-group">
-        <label>掃除方法</label>
-        <textarea
-          className={errors.cleaningMethod ? "input-error" : ""}
-          value={cleaningMethod}
-          onChange={(e) => setCleaningMethod(e.target.value)}
-        />
-        {errors.cleaningMethod && (
-          <p className="error">{errors.cleaningMethod}</p>
-        )}
-      </div>
-
-      <div className="form-group">
-        <label>在庫数（個）</label>
-        <input
-          className={errors.stock ? "input-error" : ""}
-          type="number"
-          min={0}
-          value={stock}
-          onChange={(e) => setStock(Number(e.target.value))}
-        />
-        {errors.stock && <p className="error">{errors.stock}</p>}
-      </div>
-
-      <div className="form-group">
-        <label>掃除周期（日）</label>
-        <input
-          className={errors.cycleDays ? "input-error" : ""}
-          type="number"
-          min={1}
-          value={cycleDays}
-          onChange={(e) => setCycleDays(Number(e.target.value))}
-        />
-        {errors.cycleDays && <p className="error">{errors.cycleDays}</p>}
-      </div>
-
-      <div className="button-row">
-        <button className="save-button" onClick={handleSave}>
-          保存
-        </button>
-
-        <Link className="cancel-link" to={`/detail/${id}`}>
-          キャンセル
-        </Link>
-      </div>
       {toastMessage && <div className="toast">{toastMessage}</div>}
-    </div>
+    </>
   );
 };
 
