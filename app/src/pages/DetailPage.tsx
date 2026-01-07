@@ -48,12 +48,12 @@ const DetailPage: React.FC = () => {
 
   const nextCleanDate = calcNextCleanDate(item.lastCleaned, item.cycleDays);
 
-  const handleMarkCleaned = () => {
+  const handleMarkCleaned = async () => {
     const now = Timestamp.now();
     setLastCleaned(now);
 
     try {
-      SweepRepository.markCleaned(item.id);
+      await SweepRepository.markCleaned(item.id);
     } catch (e) {
       console.error("update failed:", e);
     }

@@ -24,6 +24,11 @@ npm install --save-dev prettier
     * コンポーネント出ない場合は小文字のファイル名
 * フック (Hook) 
   * use で始まる関数
+* プロミス(Promise)
+  * 将来終わる処理の約束(pending,fulfilled,rejected)
+    * 待つ(終わるまで次の行に進まない) → await + try/catch
+    * 待たない(結果を待たずに次へ進む) → .catch() or void
+      * 結果に興味がない / 裏でやってほしい とき
 
 ### .ts と .tsx の違い
 
