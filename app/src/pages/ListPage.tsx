@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import { Sweep } from "../types/item";
 import { SweepRepository } from "../repositories/sweepRepository";
 import { formatDate } from "../utils/date";
+import { LOCATION_LABELS } from "../constants/sweepLocation";
+import type { SweepLocation } from "../types/sweep";
 import "../styles/list.css";
 
 const ListPage: React.FC = () => {
   const [sweeps, setSweeps] = useState<Sweep[]>([]);
-  const [keyword, setKeyword] = useState("");
   const [loading, setLoading] = useState(true);
+
+  // 検索フォーム
+  const [keyword, setKeyword] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState<SweepLocation | "">(
+    "",
+  );
 
   useEffect(() => {
     // NOTE:件数多くない前提なので全件取得からの絞り込みにしているだけ
@@ -25,10 +32,21 @@ const ListPage: React.FC = () => {
   }, []);
 
   // 条件絞込
-  const filteredSweeps = sweeps.filter(
-    (sweep) =>
-      sweep.name.includes(keyword) || sweep.description.includes(keyword),
-  );
+  const filteredSweeps = sweeps.filter((item) => {
+    const keywordMatch =
+      item.name.includes(keyword) || item.description.includes(keyword);
+
+    const locationMatch =
+      selectedLocation === "" || item.location === selectedLocation;
+
+    return keywordMatch && locationMatch;
+  });
+
+  // 条件クリア
+  const handleReset = () => {
+    setKeyword("");
+    setSelectedLocation("");
+  };
 
   return (
     <div className="list-page">
@@ -42,6 +60,23 @@ const ListPage: React.FC = () => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
+        <select
+          value={selectedLocation}
+          onChange={(e) =>
+            setSelectedLocation(e.target.value as SweepLocation | "")
+          }
+        >
+          <option value="">すべての場所</option>
+          {Object.entries(LOCATION_LABELS).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+
+        <button type="button" className="reset-button" onClick={handleReset}>
+          リセット
+        </button>
       </div>
 
       <h2>検索結果</h2>
@@ -55,6 +90,11 @@ const ListPage: React.FC = () => {
             <li key={item.id} className="cleaning-item">
               <Link to={`/detail/${item.id}`} className="item-link">
                 <div className="item-header">{item.name}</div>
+                {item.location && (
+                  <span className="badge">
+                    {LOCATION_LABELS[item.location]}
+                  </span>
+                )}
                 <div className="item-description">{item.description}</div>
                 {item.stock !== undefined && item.stock !== null && (
                   <div className="item-stock">在庫数：{item.stock} 個</div>

@@ -62,12 +62,16 @@
   margin-bottom: 16px;
 }
 
+.search-box input,
+.search-box select {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
 .search-box input {
   flex: 1;
-  padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
 }
 
 .search-box input:focus {
@@ -86,4 +90,17 @@
 
 .search-box button:hover {
   opacity: 0.9;
+}
+
+.search-box .reset-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: #888888;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-box .reset-button:hover {
+  background-color: #999999;
 }

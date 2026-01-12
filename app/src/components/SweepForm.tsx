@@ -1,4 +1,6 @@
 import React from "react";
+import type { SweepLocation } from "../types/sweep";
+import { LOCATION_LABELS } from "../constants/sweepLocation";
 
 export type SweepFormErrors = {
   id?: string;
@@ -7,6 +9,7 @@ export type SweepFormErrors = {
   cleaningMethod?: string;
   cycleDays?: string;
   stock?: string;
+  location?: string;
 };
 
 type Props = {
@@ -21,6 +24,8 @@ type Props = {
   cleaningMethod: string;
   cycleDays: number;
   stock: number;
+  location: SweepLocation;
+
   errors: SweepFormErrors;
   onChange: {
     setName: (v: string) => void;
@@ -28,6 +33,7 @@ type Props = {
     setCleaningMethod: (v: string) => void;
     setCycleDays: (v: number) => void;
     setStock: (v: number) => void;
+    setLocation: (v: SweepLocation) => void;
   };
   onSave: () => void;
   saveLabel: string;
@@ -44,6 +50,7 @@ const SweepForm: React.FC<Props> = ({
   cleaningMethod,
   cycleDays,
   stock,
+  location,
   errors,
   onChange,
   onSave,
@@ -78,8 +85,27 @@ const SweepForm: React.FC<Props> = ({
       </div>
 
       <div className="form-group">
+        <label>場所</label>
+        <select
+          value={location}
+          className={errors.location ? "input-error" : ""}
+          onChange={(e) =>
+            onChange.setLocation(e.target.value as SweepLocation)
+          }
+        >
+          {Object.entries(LOCATION_LABELS).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+        {errors.location && <p className="error">{errors.location}</p>}
+      </div>
+
+      <div className="form-group">
         <label>説明</label>
         <textarea
+          rows={2}
           className={errors.description ? "input-error" : ""}
           value={description}
           onChange={(e) => onChange.setDescription(e.target.value)}
@@ -90,6 +116,7 @@ const SweepForm: React.FC<Props> = ({
       <div className="form-group">
         <label>掃除方法</label>
         <textarea
+          rows={10}
           className={errors.cleaningMethod ? "input-error" : ""}
           value={cleaningMethod}
           onChange={(e) => onChange.setCleaningMethod(e.target.value)}

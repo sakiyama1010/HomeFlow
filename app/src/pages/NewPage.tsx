@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { SweepRepository } from "../repositories/sweepRepository";
 import SweepForm, { SweepFormErrors } from "../components/SweepForm";
+import type { SweepLocation } from "../types/sweep";
 import "../styles/edit.css";
 
 const NewPage: React.FC = () => {
@@ -13,6 +14,7 @@ const NewPage: React.FC = () => {
   const [cleaningMethod, setCleaningMethod] = useState("");
   const [cycleDays, setCycleDays] = useState(10);
   const [stock, setStock] = useState(0);
+  const [location, setLocation] = useState<SweepLocation>("kitchen");
 
   const [errors, setErrors] = useState<SweepFormErrors>({});
 
@@ -60,6 +62,7 @@ const NewPage: React.FC = () => {
       cleaningMethod,
       cycleDays,
       stock,
+      location,
     });
 
     setToastMessage("登録しました");
@@ -80,6 +83,7 @@ const NewPage: React.FC = () => {
         cleaningMethod={cleaningMethod}
         cycleDays={cycleDays}
         stock={stock}
+        location={location}
         errors={errors}
         onChange={{
           setName,
@@ -87,6 +91,7 @@ const NewPage: React.FC = () => {
           setCleaningMethod,
           setCycleDays,
           setStock,
+          setLocation,
         }}
         onSave={handleSave}
         saveLabel="登録"
