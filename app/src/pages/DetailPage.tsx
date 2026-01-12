@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { Sweep } from "../types/item";
 import { SweepRepository } from "../repositories/sweepRepository";
 import { Timestamp } from "firebase/firestore";
 import { formatDate, calcNextCleanDate } from "../utils/date";
+import { LOCATION_LABELS } from "../constants/sweepLocation";
 import "../styles/detail.css";
 
 const DetailPage: React.FC = () => {
@@ -70,10 +72,14 @@ const DetailPage: React.FC = () => {
   return (
     <div className="detail-page">
       <h1>{item.name}</h1>
+      {item.location && (
+        <span className="badge">{LOCATION_LABELS[item.location]}</span>
+      )}
+
       <p className="description">{item.description}</p>
 
       <h2>掃除方法</h2>
-      <p className="method">{item.cleaningMethod}</p>
+      <ReactMarkdown>{item.cleaningMethod}</ReactMarkdown>
       <p>在庫数：{item.stock} 個</p>
 
       <h2>最後に掃除した日</h2>

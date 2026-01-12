@@ -11,6 +11,7 @@ import {
   Timestamp,
   serverTimestamp,
 } from "firebase/firestore";
+import type { SweepLocation } from "../types/sweep";
 
 export type CreateSweepInput = {
   id: string;
@@ -19,6 +20,7 @@ export type CreateSweepInput = {
   cleaningMethod: string;
   stock: number;
   cycleDays: number;
+  location?: SweepLocation;
 };
 
 export const SweepRepository = {
@@ -69,15 +71,31 @@ export const SweepRepository = {
     id: string,
     data: Pick<
       Sweep,
-      "name" | "description" | "cleaningMethod" | "cycleDays" | "stock"
+      | "name"
+      | "description"
+      | "cleaningMethod"
+      | "cycleDays"
+      | "stock"
+      | "location"
     >,
   ): Promise<void> {
     const ref = doc(db, "sweeps", id);
 
-    await updateDoc(ref, {
-      ...data,
+    // location未指定の場合を考慮
+    const payload: Record<string, any> = {
+      name: data.name,
+      description: data.description,
+      cleaningMethod: data.cleaningMethod,
+      cycleDays: data.cycleDays,
+      stock: data.stock,
       updatedAt: serverTimestamp(),
-    });
+    };
+
+    if (data.location !== undefined) {
+      payload.location = data.location;
+    }
+
+    await updateDoc(ref, payload);
   },
 
   async delete(id: string): Promise<void> {

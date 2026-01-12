@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { SweepRepository } from "../repositories/sweepRepository";
 import SweepForm, { SweepFormErrors } from "../components/SweepForm";
+import type { SweepLocation } from "../types/sweep";
 import "../styles/edit.css";
 
 const EditPage: React.FC = () => {
@@ -13,6 +14,7 @@ const EditPage: React.FC = () => {
   const [cleaningMethod, setCleaningMethod] = useState("");
   const [cycleDays, setCycleDays] = useState<number>(10);
   const [stock, setStock] = useState<number>(0);
+  const [location, setLocation] = useState<SweepLocation>("kitchen");
 
   const [errors, setErrors] = useState<SweepFormErrors>({});
   const [loading, setLoading] = useState(true);
@@ -33,6 +35,7 @@ const EditPage: React.FC = () => {
       setCleaningMethod(item.cleaningMethod);
       setCycleDays(item.cycleDays);
       setStock(item.stock);
+      setLocation(item.location ?? "other");
       setLoading(false);
     };
 
@@ -81,6 +84,7 @@ const EditPage: React.FC = () => {
       cleaningMethod,
       cycleDays,
       stock,
+      location,
     });
 
     setToastMessage("更新しました");
@@ -102,6 +106,7 @@ const EditPage: React.FC = () => {
         cleaningMethod={cleaningMethod}
         cycleDays={cycleDays}
         stock={stock}
+        location={location}
         errors={errors}
         onChange={{
           setName,
@@ -109,6 +114,7 @@ const EditPage: React.FC = () => {
           setCleaningMethod,
           setCycleDays,
           setStock,
+          setLocation,
         }}
         onSave={handleSave}
         saveLabel="更新"
