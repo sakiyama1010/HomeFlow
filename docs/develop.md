@@ -24,6 +24,18 @@ alias homelog='docker logs home-flow-container'
 # コンテナに入らずサーバ立ち上げ
 docker exec -it home-flow-container bash -c "cd /usr/src/app && npm start"
 
+# 自宅wifi内のスマホ端末で確認
+## powershell(管理者で実行)
+netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=13000 connectaddress=127.0.0.1 connectport=13000
+netsh advfirewall firewall add rule name="WSL 13000" dir=in action=allow protocol=TCP localport=13000
+# 確認
+netsh interface portproxy show all
+## 削除
+netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=13000
+netsh advfirewall firewall delete rule name="WSL 13000"
+## 表示後、webアプリとして登録する
+http://自宅のPIP:13000
+
 # sonar
 # WSL
 docker compose -f docker-compose.sonar.yml -p home-flow-sonar up -d
@@ -63,4 +75,16 @@ npm test -- --coverage
 # WSL
 # テスト実施
 bash ./run-sonar.sh home-flow
+```
+
+## トラブルシューティング
+
+```txt
+Missing or insufficient permissions. FirebaseError: Missing or insufficient permissions.
+```
+
+Cloud Firestore　=> データベース => ルールを見て権限確認
+
+```js
+allow read, write: if request.time < timestamp.date(2026, 4, 1);
 ```
